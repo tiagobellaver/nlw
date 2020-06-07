@@ -1,17 +1,18 @@
-import express from 'express';
+import express from "express";
+import routes from "./routes";
+import path from "path";
+import cors from 'cors';
 
 const app = express();
 
-app.get('/users', (request, response) => {
-    console.log('Listagem de usuários');
+app.use(cors());
 
-    response.json([
-        'Tiago',
-        'Chris',
-        'Renan',
-        'Bruna',
-        'Andressa'
-    ]);
-} );
+app.use(express.json());
 
-app.listen(3333);
+app.use(routes);
+
+app.use('./uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
+
+app.listen(3333, () => {
+	console.log("Server started!");
+});
